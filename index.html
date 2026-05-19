@@ -12,11 +12,85 @@
 <style>
 :root{--moss:#1e3d0f;--fern:#3a6b22;--sage:#6fa84a;--mist:#bdd4a8;--cream:#f7f4ee;--parch:#efe9dc;--bark:#2c1f10;--stone:#5e5850;--water:#3d7080;}
 *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--bark);overflow-x:hidden;}
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:60px;background:rgba(247,244,238,.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--mist);}
-.logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--moss);display:flex;align-items:center;gap:9px;}
-nav ul{list-style:none;display:flex;gap:1.5rem;}
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  height: 60px;
+  background: rgba(247,244,238,.93);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--mist);
+}
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  color: var(--moss);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.2rem;
+}
+
+/* Bouton hamburger */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: var(--moss);
+  font-size: 1.4rem;
+}
 nav a{text-decoration:none;color:var(--stone);font-size:.8rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;transition:color .2s;}
 nav a:hover{color:var(--fern);}
+/* Mobile */
+@media (max-width: 680px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  nav ul {
+    display: none;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: rgba(247,244,238,.97);
+    flex-direction: column;
+    gap: 0;
+    border-bottom: 1px solid var(--mist);
+    padding: 0.5rem 0;
+  }
+
+  nav ul.open {
+    display: flex;
+  }
+
+  nav ul li a {
+    display: block;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--mist);
+  }
+
+  nav ul li:last-child a {
+    border-bottom: none;
+  }
+}
 #hero{min-height:100vh;padding-top:60px;background:linear-gradient(155deg,#0f2206 0%,#1e3d0f 35%,#3a6b22 65%,#6fa84a 100%);display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;}
 .leaves{position:absolute;inset:0;pointer-events:none;}
 .leaf{position:absolute;opacity:.12;animation:drift linear infinite;}
@@ -128,13 +202,14 @@ footer a{color:var(--sage);text-decoration:none;}
 <body>
 <nav>
   <div class="logo">🌿 Dunfermline Nature</div>
-  <ul>
-    <li><a href="#species">Species</a></li>
-    <li><a href="#map">Map</a></li>
-    <li><a href="#report">Report</a></li>
-    <li><a href="#dashboard">Dashboard</a></li>
-    <li><a href="#education">Learn</a></li>
-    <li><a href="#plants">Plants</a></li>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+  <ul id="navMenu">
+    <li><a href="#species" class="nav-link">Species</a></li>
+    <li><a href="#map" class="nav-link">Map</a></li>
+    <li><a href="#report" class="nav-link">Report</a></li>
+    <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+    <li><a href="#education" class="nav-link">Learn</a></li>
+    <li><a href="#plants" class="nav-link">Plants</a></li>
   </ul>
 </nav>
 
@@ -399,6 +474,14 @@ mkChart('bc1',[80,120,247]);mkChart('bc2',[600,810,1043]);mkChart('bc3',[30,55,8
 var plants=[{ico:'🌼',name:'Oxeye Daisy',desc:'Attracts hoverflies and bees.',tag:'Meadow'},{ico:'🌺',name:'Red Clover',desc:'Essential for bumblebees.',tag:'Nectar'}];
 var pg=document.getElementById('plantGrid');
 plants.forEach(function(p){pg.innerHTML+='<div class="plant-card"><div class="plant-ico">'+p.ico+'</div><div class="plant-name">'+p.name+'</div><div class="plant-desc">'+p.desc+'</div><span class="plant-tag">'+p.tag+'</span></div>';});
+
+// Menu hamburger mobile
+var toggle = document.getElementById('navToggle');
+var menu = document.getElementById('navMenu');
+toggle.onclick = function() { menu.classList.toggle('open'); };
+document.querySelectorAll('.nav-link').forEach(function(l) {
+  l.onclick = function() { menu.classList.remove('open'); };
+});
 </script>
 </body>
 </html>
